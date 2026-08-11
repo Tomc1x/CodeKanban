@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "description": "Client lourd de suivi de tâches IA — backlog en fichiers Markdown, sans MCP.",
+  "author": {
+    "name": "Tomy DACALOR",
+    "email": "tomydacalor@hotmail.com",
+    "url": "https://portfolio.caraibinf.fr"
+  },
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
