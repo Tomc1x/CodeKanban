@@ -96,3 +96,36 @@ export function TrashIcon() {
     </svg>
   );
 }
+
+export function MinimizeIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.2}>
+      <line x1="2" y1="6" x2="10" y2="6" />
+    </svg>
+  );
+}
+
+export function MaximizeIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.2}>
+      <rect x="2" y="2" width="8" height="8" />
+    </svg>
+  );
+}
+
+export function RestoreIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.2}>
+      <rect x="3.5" y="1.5" width="7" height="7" />
+      <path d="M3.5 3.5H1.5v7h7v-2" />
+    </svg>
+  );
+}
+
+export function CloseIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.2}>
+      <line x1="2" y1="2" x2="10" y2="10" /><line x1="10" y1="2" x2="2" y2="10" />
+    </svg>
+  );
+}

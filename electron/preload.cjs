@@ -23,4 +23,20 @@ contextBridge.exposeInMainWorld('api', {
   },
 
   copyToClipboard: (text) => ipcRenderer.invoke('clipboard:writeText', text),
+
+  getSkillContent: () => ipcRenderer.invoke('skill:getContent'),
+  getSkillStatus: () => ipcRenderer.invoke('skill:getStatus'),
+  installSkill: () => ipcRenderer.invoke('skill:install'),
+
+  minimizeWindow: () => ipcRenderer.invoke('window:minimize'),
+  maximizeToggleWindow: () => ipcRenderer.invoke('window:maximizeToggle'),
+  closeWindow: () => ipcRenderer.invoke('window:close'),
+  isWindowMaximized: () => ipcRenderer.invoke('window:isMaximized'),
+  onWindowMaximizedChanged: (callback) => {
+    const listener = (_event, isMaximized) => callback(isMaximized);
+    ipcRenderer.on('window:maximizedChanged', listener);
+    return () => ipcRenderer.removeListener('window:maximizedChanged', listener);
+  },
+
+  listAvailableSkills: () => ipcRenderer.invoke('skills:list'),
 });

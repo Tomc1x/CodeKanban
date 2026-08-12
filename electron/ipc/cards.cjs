@@ -81,6 +81,7 @@ function registerCardsHandlers(ipcMain) {
       estimate: '',
       order: seq * 10,
       wi: null,
+      skills: [],
       created: nowIso(),
       updated: nowIso(),
       validatedAt: null,

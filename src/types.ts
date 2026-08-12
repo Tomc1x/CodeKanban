@@ -20,6 +20,7 @@ export interface Card {
   estimate: string;
   order: number;
   wi: string | null;
+  skills: string[];
   created: string;
   updated: string;
   validatedAt: string | null;
@@ -62,6 +63,24 @@ export interface CodeKanbanApi {
   onCardsChanged: (callback: (projectPath: string) => void) => () => void;
 
   copyToClipboard: (text: string) => Promise<void>;
+
+  getSkillContent: () => Promise<string>;
+  getSkillStatus: () => Promise<SkillStatus>;
+  installSkill: () => Promise<SkillStatus>;
+
+  minimizeWindow: () => Promise<void>;
+  maximizeToggleWindow: () => Promise<boolean>;
+  closeWindow: () => Promise<void>;
+  isWindowMaximized: () => Promise<boolean>;
+  onWindowMaximizedChanged: (callback: (isMaximized: boolean) => void) => () => void;
+
+  listAvailableSkills: () => Promise<string[]>;
+}
+
+export interface SkillStatus {
+  installed: boolean;
+  upToDate: boolean;
+  path: string;
 }
 
 declare global {

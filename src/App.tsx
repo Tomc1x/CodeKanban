@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ProjectSummary } from './types';
 import Nav from './components/Nav';
+import TitleBar from './components/TitleBar';
 import RootScreen from './screens/RootScreen';
 import BoardScreen from './screens/BoardScreen';
 import InstallScreen from './screens/InstallScreen';
@@ -30,6 +31,7 @@ export default function App() {
 
   return (
     <div className="app-root">
+      <TitleBar />
       {screen === 'root' && (
         <>
           <Nav isDark={theme === 'dark'} onToggleTheme={toggleTheme} />

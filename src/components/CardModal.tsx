@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card } from '../types';
 import { PRIORITY_CLASS } from '../lib/columns';
 import { TrashIcon } from './icons';
+import { SkillTagsEditor } from './SkillTags';
 
 interface CardModalProps {
   card: Card;
@@ -70,6 +71,11 @@ export default function CardModal({ card, onClose, onChange, onDelete }: CardMod
           </div>
 
           {card.estimate && <div className="card-meta" style={{ marginBottom: 16 }}><span>{card.estimate}</span></div>}
+
+          <div style={{ fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', opacity: 0.55, marginBottom: 8 }}>Skills requis</div>
+          <div style={{ marginBottom: 16 }}>
+            <SkillTagsEditor skills={card.skills} onChange={(skills) => onChange({ ...card, skills })} />
+          </div>
 
           <div style={{ fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', opacity: 0.55, marginBottom: 8 }}>Checklist</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>

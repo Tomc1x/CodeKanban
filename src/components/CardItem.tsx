@@ -1,6 +1,7 @@
 import { Card, Status } from '../types';
 import { PRIORITY_CLASS } from '../lib/columns';
 import { CheckCircleIcon, CircleIcon, ClockIcon, ChecklistIcon, CommentIcon, ArrowRightIcon } from './icons';
+import { SkillBadges } from './SkillTags';
 
 interface CardItemProps {
   card: Card;
@@ -101,6 +102,7 @@ export default function CardItem({
             <span>{card.estimate}</span>
           </div>
         )}
+        <SkillBadges skills={card.skills} />
         {showProgress && total > 0 && (
           <div style={{ height: 5, background: 'var(--color-neutral-200)', marginTop: 8, overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${Math.round((doneCount / total) * 100)}%`, background: 'var(--color-accent)' }} />

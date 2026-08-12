@@ -23,6 +23,7 @@ function writeFixtureCard(overrides) {
     estimate: '',
     order: 0,
     wi: null,
+    skills: [],
     created: '2026-08-11T10:00:00.000Z',
     updated: '2026-08-11T10:00:00.000Z',
     validatedAt: null,

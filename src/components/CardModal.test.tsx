@@ -1,7 +1,11 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import CardModal from './CardModal';
 import { Card } from '../types';
+
+beforeEach(() => {
+  (window as any).api = { listAvailableSkills: vi.fn().mockResolvedValue([]) };
+});
 
 function makeCard(overrides: Partial<Card> = {}): Card {
   return {
@@ -11,6 +15,7 @@ function makeCard(overrides: Partial<Card> = {}): Card {
     estimate: '',
     order: 10,
     wi: null,
+    skills: [],
     created: '2026-08-11T10:00:00.000Z',
     updated: '2026-08-11T10:00:00.000Z',
     validatedAt: null,
@@ -72,5 +77,29 @@ describe('CardModal title/description editing', () => {
 
     fireEvent.blur(description);
     expect(onChange).toHaveBeenCalledWith({ ...card, description: 'Ecrire des tests et des pipelines pour github.' });
+  });
+});
+
+describe('CardModal skill tags', () => {
+  it('adds a skill tag and persists it via onChange', async () => {
+    const onChange = vi.fn();
+    const card = makeCard();
+    render(<CardModal card={card} onClose={() => {}} onDelete={() => {}} onChange={onChange} />);
+
+    const input = screen.getByPlaceholderText('Ajouter un skill…') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'codekanban' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(onChange).toHaveBeenCalledWith({ ...card, skills: ['codekanban'] });
+  });
+
+  it('removes an existing skill tag via onChange', () => {
+    const onChange = vi.fn();
+    const card = makeCard({ skills: ['codekanban', 'ipeos-manager'] });
+    render(<CardModal card={card} onClose={() => {}} onDelete={() => {}} onChange={onChange} />);
+
+    fireEvent.click(screen.getByLabelText('Retirer codekanban'));
+
+    expect(onChange).toHaveBeenCalledWith({ ...card, skills: ['ipeos-manager'] });
   });
 });
