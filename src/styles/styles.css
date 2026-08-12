@@ -402,6 +402,13 @@ textarea.input {
   font-weight: var(--font-heading-weight);
   font-size: 18px;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+.nav-logo {
+  height: 28px;
+  width: auto;
+  display: block;
 }
 .nav a {
   color: inherit;
@@ -516,12 +523,10 @@ textarea.input {
   font-size: 12px;
   letter-spacing: 0.02em;
 }
-.title-bar-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  display: inline-block;
+.title-bar-logo {
+  height: 18px;
+  width: auto;
+  display: block;
 }
 .title-bar-controls {
   -webkit-app-region: no-drag;

@@ -1,4 +1,5 @@
 import { RaysIcon, CrescentIcon } from "./icons";
+import logo from "../assets/logo.png";
 
 interface NavProps {
   isDark: boolean;
@@ -22,7 +23,7 @@ export default function Nav({
         style={onBrandClick ? { cursor: "pointer" } : undefined}
         onClick={onBrandClick}
       >
-        CodeKaban
+        <img src={logo} alt="CodeKanban" className="nav-logo" />
       </span>
       {children}
       <span

@@ -10,7 +10,7 @@ const { registerSkillsCatalogHandlers } = require('./ipc/skills-catalog.cjs');
 const { registerUpdaterHandlers, startUpdaterChecks } = require('./ipc/updater.cjs');
 
 const isDev = process.env.NODE_ENV === 'development';
-const iconPath = path.join(__dirname, '..', 'build', 'icon.png');
+const iconPath = path.join(__dirname, '..', 'src', 'assets', 'logo.png');
 
 function createWindow() {
   const win = new BrowserWindow({

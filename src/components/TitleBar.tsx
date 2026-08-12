@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MinimizeIcon, MaximizeIcon, RestoreIcon, CloseIcon } from './icons';
 import UpdateIndicator from './UpdateIndicator';
+import logo from '../assets/logo.png';
 
 export default function TitleBar() {
   const [isMaximized, setIsMaximized] = useState(false);
@@ -17,8 +18,7 @@ export default function TitleBar() {
   return (
     <header className="title-bar" onDoubleClick={maximizeToggle}>
       <span className="title-bar-brand" onDoubleClick={(e) => e.stopPropagation()}>
-        <span className="title-bar-dot" />
-        CodeKanban
+        <img src={logo} alt="CodeKanban" className="title-bar-logo" />
         <UpdateIndicator />
       </span>
       <div className="title-bar-controls" onDoubleClick={(e) => e.stopPropagation()}>
