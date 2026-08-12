@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
 import { MinimizeIcon, MaximizeIcon, RestoreIcon, CloseIcon } from './icons';
 import UpdateIndicator from './UpdateIndicator';
-import logo from '../assets/logo.png';
+import logoLight from '../assets/logo-small-light.png';
+import logoDark from '../assets/logo-small-dark.png';
 
-export default function TitleBar() {
+interface TitleBarProps {
+  isDark: boolean;
+}
+
+export default function TitleBar({ isDark }: TitleBarProps) {
   const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {
@@ -18,7 +23,7 @@ export default function TitleBar() {
   return (
     <header className="title-bar" onDoubleClick={maximizeToggle}>
       <span className="title-bar-brand" onDoubleClick={(e) => e.stopPropagation()}>
-        <img src={logo} alt="CodeKanban" className="title-bar-logo" />
+        <img src={isDark ? logoDark : logoLight} alt="CodeKanban" className="title-bar-logo" />
         <UpdateIndicator />
       </span>
       <div className="title-bar-controls" onDoubleClick={(e) => e.stopPropagation()}>

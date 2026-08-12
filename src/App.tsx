@@ -31,7 +31,7 @@ export default function App() {
 
   return (
     <div className="app-root">
-      <TitleBar />
+      <TitleBar isDark={theme === 'dark'} />
       {screen === 'root' && (
         <>
           <Nav isDark={theme === 'dark'} onToggleTheme={toggleTheme} />
