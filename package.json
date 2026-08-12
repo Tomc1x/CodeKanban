@@ -1,6 +1,6 @@
 {
   "name": "codekanban",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Client lourd de suivi de tâches IA — backlog en fichiers Markdown, sans MCP.",
   "author": {
