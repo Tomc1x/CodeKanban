@@ -23,6 +23,10 @@ function registerUpdaterHandlers(ipcMain, getWindow) {
 
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = supportsAutoUpdate();
+  // Range-request-based delta downloads occasionally get refused by GitHub's
+  // CDN over HTTP/2 (ERR_HTTP2_SERVER_REFUSED_STREAM) — plain full downloads
+  // are slower but far more reliable.
+  autoUpdater.disableDifferentialDownload = true;
 
   if (!supportsAutoUpdate()) clearStalePendingUpdate();
 
