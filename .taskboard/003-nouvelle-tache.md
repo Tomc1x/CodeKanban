@@ -1,12 +1,13 @@
 ---
 id: '003'
-status: done
+status: validated
 priority: moyenne
 estimate: ''
-order: 10
+order: 30
 wi: null
+skills: []
 created: '2026-08-12T17:40:53.997Z'
-updated: '2026-08-12T17:54:17.446Z'
+updated: '2026-08-12T19:35:21.499Z'
 validated_at: null
 ---
 # Mise à jour
@@ -48,4 +49,3 @@ Vérifié par capture d'écran hors-écran (`capturePage`, sans toucher au vrai 
 Non testé en conditions réelles : un vrai cycle de mise à jour contre une release GitHub (nécessiterait de publier une version supérieure et un build packagé) — seul le flux d'événements a été simulé.
 
 **Addendum — 2026-08-12 18:36** : confirmation en conditions réelles, et pire que prévu. L'ancienne version installée (`.deb` 0.1.0, sans le correctif ci-dessus) a auto-téléchargé et tenté d'auto-installer la release 0.2.0 via `pkexec`/`dpkg` à la fermeture de l'app — d'où le prompt « sudo » graphique signalé par l'utilisateur. Confirmé par `/var/log/dpkg.log` (`upgrade codekanban:amd64 0.1.0 0.2.0` à 14:21:37) et un fichier résiduel `~/.cache/codekanban-updater/pending/codekanban_0.2.0_amd64.deb` (supprimé). Correctif renforcé dans `electron/ipc/updater.cjs` : `autoUpdater.autoInstallOnAppQuit` n'est plus mis à `true` inconditionnellement mais suit `supportsAutoUpdate()`, et un nettoyage (`clearStalePendingUpdate()`) supprime tout résidu de mise à jour en attente au démarrage sur une installation non supportée (`.deb`), pour qu'un enregistrement laissé par un ancien build ne puisse plus jamais déclencher un install privilégié. `tsc`, `vitest` (17/17) et `npm run build` repassés verts.
-

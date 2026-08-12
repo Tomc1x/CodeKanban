@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld('api', {
   },
 
   copyToClipboard: (text) => ipcRenderer.invoke('clipboard:writeText', text),
+  openExternal: (url) => ipcRenderer.invoke('shell:openExternal', url),
 
   getSkillContent: () => ipcRenderer.invoke('skill:getContent'),
   getSkillStatus: () => ipcRenderer.invoke('skill:getStatus'),

@@ -7,7 +7,7 @@ order: 20
 wi: null
 skills: []
 created: '2026-08-12T16:35:14.637Z'
-updated: '2026-08-12T17:22:26.737Z'
+updated: '2026-08-12T19:35:21.497Z'
 validated_at: null
 ---
 # Barre du haut

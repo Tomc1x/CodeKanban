@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, clipboard, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, clipboard, shell, Menu } = require('electron');
 const path = require('node:path');
 const { registerConfigHandlers } = require('./ipc/config.cjs');
 const { registerProjectsHandlers } = require('./ipc/projects.cjs');
@@ -54,6 +54,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle('clipboard:writeText', (_event, text) => {
     clipboard.writeText(text);
+  });
+
+  ipcMain.handle('shell:openExternal', (_event, url) => {
+    if (/^https?:\/\//.test(url)) shell.openExternal(url);
   });
 
   createWindow();

@@ -63,6 +63,7 @@ export interface CodeKanbanApi {
   onCardsChanged: (callback: (projectPath: string) => void) => () => void;
 
   copyToClipboard: (text: string) => Promise<void>;
+  openExternal: (url: string) => Promise<void>;
 
   getSkillContent: () => Promise<string>;
   getSkillStatus: () => Promise<SkillStatus>;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { SkillStatus, UpdaterStatus } from '../types';
-import { describeUpdaterStatus } from '../lib/updater';
+import { describeUpdaterStatus, LATEST_RELEASE_URL } from '../lib/updater';
 
 export default function InstallScreen() {
   const [content, setContent] = useState('');
@@ -67,6 +67,18 @@ export default function InstallScreen() {
         <div>
           <div style={{ fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', opacity: 0.55, marginBottom: 4 }}>Mises à jour</div>
           <div style={{ fontSize: 13, fontWeight: 600 }}>{describeUpdaterStatus(updateStatus)}</div>
+          {updateStatus.state === 'unsupported' && (
+            <a
+              href="#"
+              style={{ fontSize: 12 }}
+              onClick={(e) => {
+                e.preventDefault();
+                window.api.openExternal(LATEST_RELEASE_URL);
+              }}
+            >
+              Télécharger la dernière version (.deb) sur GitHub →
+            </a>
+          )}
         </div>
         {updateStatus.state === 'downloaded' ? (
           <button type="button" className="btn btn-primary" onClick={() => window.api.restartAndInstallUpdate()}>

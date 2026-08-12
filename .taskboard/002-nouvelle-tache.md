@@ -7,7 +7,7 @@ order: 10
 wi: null
 skills: []
 created: '2026-08-12T16:37:16.721Z'
-updated: '2026-08-12T17:22:26.736Z'
+updated: '2026-08-12T19:35:21.492Z'
 validated_at: null
 ---
 # Pouvoir choisir le skill
