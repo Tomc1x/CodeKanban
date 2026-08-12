@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
-import type { SkillStatus } from '../types';
+import type { SkillStatus, UpdaterStatus } from '../types';
+import { describeUpdaterStatus } from '../lib/updater';
 
 export default function InstallScreen() {
   const [content, setContent] = useState('');
   const [status, setStatus] = useState<SkillStatus | null>(null);
   const [installing, setInstalling] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<UpdaterStatus>({ state: 'not-available' });
 
   useEffect(() => {
     window.api.getSkillContent().then(setContent);
     window.api.getSkillStatus().then(setStatus);
+    return window.api.onUpdaterStatus(setUpdateStatus);
   }, []);
 
   const install = async () => {
@@ -59,6 +62,27 @@ export default function InstallScreen() {
         par projet. Après l'installation, redémarrez Claude Code (ou lancez <code>/mcp</code> puis relancez la
         session) pour qu'il recharge la liste des skills disponibles.
       </p>
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 20, padding: '12px 16px', background: 'var(--color-neutral-100)', border: '2px solid var(--color-divider)' }}>
+        <div>
+          <div style={{ fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', opacity: 0.55, marginBottom: 4 }}>Mises à jour</div>
+          <div style={{ fontSize: 13, fontWeight: 600 }}>{describeUpdaterStatus(updateStatus)}</div>
+        </div>
+        {updateStatus.state === 'downloaded' ? (
+          <button type="button" className="btn btn-primary" onClick={() => window.api.restartAndInstallUpdate()}>
+            Redémarrer maintenant
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => window.api.checkForUpdates()}
+            disabled={updateStatus.state === 'checking' || updateStatus.state === 'downloading'}
+          >
+            Vérifier les mises à jour
+          </button>
+        )}
+      </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
         <span style={{ fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', opacity: 0.55 }}>Contenu du skill installé</span>

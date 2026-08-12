@@ -75,6 +75,19 @@ export interface CodeKanbanApi {
   onWindowMaximizedChanged: (callback: (isMaximized: boolean) => void) => () => void;
 
   listAvailableSkills: () => Promise<string[]>;
+
+  checkForUpdates: () => Promise<void>;
+  restartAndInstallUpdate: () => Promise<void>;
+  onUpdaterStatus: (callback: (status: UpdaterStatus) => void) => () => void;
+}
+
+export type UpdaterState = 'checking' | 'available' | 'downloading' | 'downloaded' | 'not-available' | 'error' | 'unsupported';
+
+export interface UpdaterStatus {
+  state: UpdaterState;
+  version?: string;
+  percent?: number;
+  message?: string;
 }
 
 export interface SkillStatus {

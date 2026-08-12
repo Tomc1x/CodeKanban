@@ -39,4 +39,12 @@ contextBridge.exposeInMainWorld('api', {
   },
 
   listAvailableSkills: () => ipcRenderer.invoke('skills:list'),
+
+  checkForUpdates: () => ipcRenderer.invoke('updater:check'),
+  restartAndInstallUpdate: () => ipcRenderer.invoke('updater:restartAndInstall'),
+  onUpdaterStatus: (callback) => {
+    const listener = (_event, status) => callback(status);
+    ipcRenderer.on('updater:status', listener);
+    return () => ipcRenderer.removeListener('updater:status', listener);
+  },
 });

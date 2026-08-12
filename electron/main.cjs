@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain, clipboard, Menu } = require('electron');
 const path = require('node:path');
-const { autoUpdater } = require('electron-updater');
 const { registerConfigHandlers } = require('./ipc/config.cjs');
 const { registerProjectsHandlers } = require('./ipc/projects.cjs');
 const { registerCardsHandlers } = require('./ipc/cards.cjs');
@@ -8,6 +7,7 @@ const { registerWatcherHandlers, stopAllWatchers } = require('./ipc/watcher.cjs'
 const { registerSkillHandlers } = require('./ipc/skill.cjs');
 const { registerWindowHandlers, watchMaximizeState } = require('./ipc/window.cjs');
 const { registerSkillsCatalogHandlers } = require('./ipc/skills-catalog.cjs');
+const { registerUpdaterHandlers, startUpdaterChecks } = require('./ipc/updater.cjs');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -48,6 +48,7 @@ app.whenReady().then(() => {
   registerSkillHandlers(ipcMain);
   registerWindowHandlers(ipcMain, () => BrowserWindow.getAllWindows()[0] || null);
   registerSkillsCatalogHandlers(ipcMain);
+  registerUpdaterHandlers(ipcMain, () => BrowserWindow.getAllWindows()[0] || null);
 
   ipcMain.handle('clipboard:writeText', (_event, text) => {
     clipboard.writeText(text);
@@ -60,7 +61,7 @@ app.whenReady().then(() => {
   });
 
   if (!isDev) {
-    autoUpdater.checkForUpdatesAndNotify().catch(() => {});
+    startUpdaterChecks();
   }
 });
 

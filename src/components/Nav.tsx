@@ -1,4 +1,4 @@
-import { RaysIcon, CrescentIcon } from './icons';
+import { RaysIcon, CrescentIcon } from "./icons";
 
 interface NavProps {
   isDark: boolean;
@@ -8,14 +8,32 @@ interface NavProps {
   children?: React.ReactNode;
 }
 
-export default function Nav({ isDark, onToggleTheme, onBrandClick, right, children }: NavProps) {
+export default function Nav({
+  isDark,
+  onToggleTheme,
+  onBrandClick,
+  right,
+  children,
+}: NavProps) {
   return (
     <nav className="nav">
-      <span className="nav-brand" style={onBrandClick ? { cursor: 'pointer' } : undefined} onClick={onBrandClick}>
-        PilotIA
+      <span
+        className="nav-brand"
+        style={onBrandClick ? { cursor: "pointer" } : undefined}
+        onClick={onBrandClick}
+      >
+        CodeKaban
       </span>
       {children}
-      <span style={{ marginLeft: children ? undefined : 'auto', fontSize: 13, opacity: 0.6 }}>{right}</span>
+      <span
+        style={{
+          marginLeft: children ? undefined : "auto",
+          fontSize: 13,
+          opacity: 0.6,
+        }}
+      >
+        {right}
+      </span>
       <button
         type="button"
         className="btn btn-ghost btn-icon"
