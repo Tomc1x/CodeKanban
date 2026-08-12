@@ -10,6 +10,7 @@ const { registerSkillsCatalogHandlers } = require('./ipc/skills-catalog.cjs');
 const { registerUpdaterHandlers, startUpdaterChecks } = require('./ipc/updater.cjs');
 
 const isDev = process.env.NODE_ENV === 'development';
+const iconPath = path.join(__dirname, '..', 'build', 'icon.png');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -18,6 +19,7 @@ function createWindow() {
     minWidth: 960,
     minHeight: 600,
     frame: false,
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,

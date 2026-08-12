@@ -51,6 +51,7 @@
   "build": {
     "appId": "com.ipeos.codekanban",
     "productName": "CodeKanban",
+    "icon": "build/icon.png",
     "directories": {
       "output": "release"
     },
@@ -58,6 +59,7 @@
       "dist/**/*",
       "electron/**/*",
       "skill/**/*",
+      "build/icon.png",
       "package.json"
     ],
     "publish": {
