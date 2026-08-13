@@ -37,7 +37,7 @@ export default function Column({
 
   return (
     <div className="board-column">
-      {/* <div className={`board-column-header${meta.id === 'blocked' ? ' is-blocked' : ''}`}>
+      <div className={`board-column-header${meta.id === 'blocked' ? ' is-blocked' : ''}`}>
         <span className="board-column-label">{meta.label}</span>
         <span className="board-column-count">{cards.length}</span>
         {meta.id === 'validated' && cards.length > 0 && (
@@ -52,7 +52,7 @@ export default function Column({
             Vider
           </button>
         )}
-      </div> */}
+      </div>
       <div className="board-cards" ref={setNodeRef}>
         <SortableContext items={cards.map((c) => c.filename)} strategy={verticalListSortingStrategy}>
           {cards.map((card) => (

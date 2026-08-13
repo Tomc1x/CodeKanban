@@ -266,7 +266,14 @@ export default function CardPage({ card, allCards, onChange, onDelete }: CardPag
             />
             <div style={{ display: 'flex', gap: 8, marginTop: 8, justifyContent: 'flex-end' }}>
               {card.status === 'done' && card.comments.length > 0 && card.comments[card.comments.length - 1].author === 'user' && (
-                <button type="button" className="btn btn-secondary" onClick={() => onChange({ ...card, status: 'todo' })}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    onChange({ ...card, status: 'todo' });
+                    window.history.back();
+                  }}
+                >
                   <RelaunchIcon />Relancer
                 </button>
               )}
@@ -294,7 +301,14 @@ export default function CardPage({ card, allCards, onChange, onDelete }: CardPag
         </button>
         <div style={{ display: 'flex', gap: 8 }}>
           {card.status === 'done' && (
-            <button type="button" className="btn btn-primary" onClick={() => onChange({ ...card, status: 'validated' })}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                onChange({ ...card, status: 'validated' });
+                window.history.back();
+              }}
+            >
               <ValidateIcon />Valider
             </button>
           )}

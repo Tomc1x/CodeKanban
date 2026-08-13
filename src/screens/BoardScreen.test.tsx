@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import BoardScreen from './BoardScreen';
 import { Card, ProjectSummary } from '../types';
+import { ToastProvider } from '../lib/toast';
 
 function makeCard(overrides: Partial<Card> = {}): Card {
   return {
@@ -44,14 +45,16 @@ beforeEach(() => {
 describe('BoardScreen card title rename (in nav)', () => {
   it('renames the card via the nav title input on blur, not on every keystroke', async () => {
     render(
-      <BoardScreen
-        project={project}
-        allProjects={[project]}
-        isDark={false}
-        onToggleTheme={() => {}}
-        onBackToRoot={() => {}}
-        onSwitchProject={() => {}}
-      />
+      <ToastProvider>
+        <BoardScreen
+          project={project}
+          allProjects={[project]}
+          isDark={false}
+          onToggleTheme={() => {}}
+          onBackToRoot={() => {}}
+          onSwitchProject={() => {}}
+        />
+      </ToastProvider>
     );
 
     fireEvent.click(await screen.findByText('Nouvelle tâche'));

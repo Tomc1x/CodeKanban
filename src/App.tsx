@@ -8,6 +8,7 @@ import InstallScreen from './screens/InstallScreen';
 import CardPage from './components/CardPage';
 import TutorialOverlay, { TutorialStep } from './components/TutorialOverlay';
 import { ProjectsIcon, SettingsIcon, HelpIcon } from './components/icons';
+import { ToastProvider } from './lib/toast';
 
 type Screen = 'root' | 'board' | 'install';
 
@@ -155,84 +156,86 @@ export default function App() {
   };
 
   return (
-    <div className="app-root">
-      <TitleBar isDark={theme === 'dark'} />
-      {(screen === 'root' || screen === 'install') && (
-        <>
-          <Nav isDark={theme === 'dark'} onToggleTheme={toggleTheme}>
-            <a
-              href="#"
-              style={{ fontWeight: screen === 'root' ? 700 : 400 }}
-              aria-current={screen === 'root' ? 'page' : undefined}
-              onClick={(e) => { e.preventDefault(); setProject(null); setScreen('root'); }}
-            >
-              <ProjectsIcon />
-              Projets
-            </a>
-            <a
-              href="#"
-              style={{ fontWeight: screen === 'install' ? 700 : 400 }}
-              aria-current={screen === 'install' ? 'page' : undefined}
-              onClick={(e) => { e.preventDefault(); setScreen('install'); }}
-            >
-              <SettingsIcon />
-              Configuration
-            </a>
-            <button
-              type="button"
-              className="btn btn-ghost btn-icon"
-              style={{ width: 28, height: 28 }}
-              title="Revoir le tutoriel"
-              onClick={startTutorial}
-            >
-              <HelpIcon />
-            </button>
-          </Nav>
-          {screen === 'root' && <RootScreen onOpenProject={openProject} />}
-          {screen === 'install' && <InstallScreen />}
-        </>
-      )}
+    <ToastProvider>
+      <div className="app-root">
+        <TitleBar isDark={theme === 'dark'} />
+        {(screen === 'root' || screen === 'install') && (
+          <>
+            <Nav isDark={theme === 'dark'} onToggleTheme={toggleTheme}>
+              <a
+                href="#"
+                style={{ fontWeight: screen === 'root' ? 700 : 400 }}
+                aria-current={screen === 'root' ? 'page' : undefined}
+                onClick={(e) => { e.preventDefault(); setProject(null); setScreen('root'); }}
+              >
+                <ProjectsIcon />
+                Projets
+              </a>
+              <a
+                href="#"
+                style={{ fontWeight: screen === 'install' ? 700 : 400 }}
+                aria-current={screen === 'install' ? 'page' : undefined}
+                onClick={(e) => { e.preventDefault(); setScreen('install'); }}
+              >
+                <SettingsIcon />
+                Configuration
+              </a>
+              <button
+                type="button"
+                className="btn btn-ghost btn-icon"
+                style={{ width: 28, height: 28 }}
+                title="Revoir le tutoriel"
+                onClick={startTutorial}
+              >
+                <HelpIcon />
+              </button>
+            </Nav>
+            {screen === 'root' && <RootScreen onOpenProject={openProject} />}
+            {screen === 'install' && <InstallScreen />}
+          </>
+        )}
 
-      {screen === 'board' && project && (
-        <BoardScreen
-          project={project}
-          allProjects={allProjects}
-          isDark={theme === 'dark'}
-          onToggleTheme={toggleTheme}
-          onBackToRoot={backToRoot}
-          onSwitchProject={openProject}
-        />
-      )}
+        {screen === 'board' && project && (
+          <BoardScreen
+            project={project}
+            allProjects={allProjects}
+            isDark={theme === 'dark'}
+            onToggleTheme={toggleTheme}
+            onBackToRoot={backToRoot}
+            onSwitchProject={openProject}
+          />
+        )}
 
-      {tutorialActive && tutorialSteps[tutorialStep]?.demoCard && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 1900,
-            background: 'var(--color-bg)',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <div style={{ padding: '10px 24px', fontSize: 12, opacity: 0.6, borderBottom: '2px solid var(--color-divider)' }}>
-            Aperçu — cette carte n'est pas enregistrée
+        {tutorialActive && tutorialSteps[tutorialStep]?.demoCard && (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 1900,
+              background: 'var(--color-bg)',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <div style={{ padding: '10px 24px', fontSize: 12, opacity: 0.6, borderBottom: '2px solid var(--color-divider)' }}>
+              Aperçu — cette carte n'est pas enregistrée
+            </div>
+            <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+              <CardPage card={TUTORIAL_DEMO_CARD} allCards={[TUTORIAL_DEMO_CARD]} onChange={() => {}} onDelete={() => {}} />
+            </div>
           </div>
-          <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-            <CardPage card={TUTORIAL_DEMO_CARD} allCards={[TUTORIAL_DEMO_CARD]} onChange={() => {}} onDelete={() => {}} />
-          </div>
-        </div>
-      )}
+        )}
 
-      {tutorialActive && (
-        <TutorialOverlay
-          steps={tutorialSteps}
-          step={tutorialStep}
-          onNext={() => goToTutorialStep(tutorialStep + 1)}
-          onPrev={() => goToTutorialStep(tutorialStep - 1)}
-          onFinish={finishTutorial}
-        />
-      )}
-    </div>
+        {tutorialActive && (
+          <TutorialOverlay
+            steps={tutorialSteps}
+            step={tutorialStep}
+            onNext={() => goToTutorialStep(tutorialStep + 1)}
+            onPrev={() => goToTutorialStep(tutorialStep - 1)}
+            onFinish={finishTutorial}
+          />
+        )}
+      </div>
+    </ToastProvider>
   );
 }

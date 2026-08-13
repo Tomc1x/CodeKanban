@@ -1,6 +1,6 @@
 ---
 id: '012'
-status: todo
+status: doing
 priority: haute
 estimate: ''
 order: 10
@@ -11,7 +11,7 @@ depends_on: []
 ask_user_questions: null
 refined: false
 created: '2026-08-13T15:48:33.825Z'
-updated: '2026-08-13T16:17:59.547Z'
+updated: '2026-08-13T16:37:46.687Z'
 validated_at: null
 ---
 # Release
@@ -42,8 +42,8 @@ suivant le pipeline existant.
      l'automatiser silencieusement même si cette carte documente le processus à l'avance.
 
 ## Checklist
-- [ ] Bouton « Valider » (`CardPage.tsx`) ramène au kanban après le changement de statut
-- [ ] Bouton « Relancer » (`CardPage.tsx`) ramène au kanban après le changement de statut
+- [x] Bouton « Valider » (`CardPage.tsx`) ramène au kanban après le changement de statut
+- [x] Bouton « Relancer » (`CardPage.tsx`) ramène au kanban après le changement de statut
 - [ ] Version bumpée dans `package.json` + commit « Bump version to X.Y.Z »
 - [ ] Confirmation utilisateur obtenue avant le `git push` sur `main`
 - [ ] Push effectué, `release.yml` déclenché

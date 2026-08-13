@@ -13,6 +13,8 @@ import {
 import { arrayMove } from '@dnd-kit/sortable';
 import { Card, ProjectSummary, Status } from '../types';
 import { COLUMNS, PRIORITY_CLASS, getDependencyBounds, nextColumn } from '../lib/columns';
+import { describeCardChanges } from '../lib/cardDiff';
+import { useToast } from '../lib/toast';
 import Column from '../components/Column';
 import CardPage from '../components/CardPage';
 import Nav from '../components/Nav';
@@ -41,14 +43,25 @@ export default function BoardScreen({ project, allProjects, isDark, onToggleThem
   const [focusTitleFor, setFocusTitleFor] = useState<string | null>(null);
   const copyTimeout = useRef<ReturnType<typeof setTimeout>>();
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const cardsRef = useRef<Card[]>([]);
+  const hasLoadedOnce = useRef(false);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
+  const { pushToast } = useToast();
 
   const loadCards = useCallback(() => {
-    window.api.readCards(project.path).then(setCards);
-  }, [project.path]);
+    window.api.readCards(project.path).then((newCards) => {
+      if (hasLoadedOnce.current) {
+        describeCardChanges(cardsRef.current, newCards).forEach(pushToast);
+      }
+      hasLoadedOnce.current = true;
+      cardsRef.current = newCards;
+      setCards(newCards);
+    });
+  }, [project.path, pushToast]);
 
   useEffect(() => {
+    hasLoadedOnce.current = false;
     loadCards();
     window.api.watchProject(project.path);
     const unsubscribe = window.api.onCardsChanged((changedPath) => {
