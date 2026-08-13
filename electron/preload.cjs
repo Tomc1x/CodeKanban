@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.invoke('config:setProjectSettings', projectPath, settings),
 
   listProjects: (rootId) => ipcRenderer.invoke('projects:list', rootId),
+  createProject: (rootId, name) => ipcRenderer.invoke('projects:create', rootId, name),
 
   readCards: (projectPath) => ipcRenderer.invoke('cards:read', projectPath),
   writeCard: (projectPath, card) => ipcRenderer.invoke('cards:write', projectPath, card),

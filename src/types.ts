@@ -64,6 +64,7 @@ export interface CodeKanbanApi {
   setProjectSettings: (projectPath: string, settings: Partial<ProjectSettings>) => Promise<ProjectSettings>;
 
   listProjects: (rootId: string) => Promise<ProjectSummary[]>;
+  createProject: (rootId: string, name: string) => Promise<ProjectSummary>;
 
   readCards: (projectPath: string) => Promise<Card[]>;
   writeCard: (projectPath: string, card: Card) => Promise<boolean>;

@@ -1,49 +1,53 @@
-/* Modernist — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap");
+﻿/* Notion-inspired — design-system tokens and component classes. This file is the source of
+   truth for the system's look; retune it here and see readme.md.
+   Palette/typography sourced from the "Notion Analysis" design (warm paper canvas, near-black
+   Inter type, single confident blue accent). Dark theme is deduced from the light palette by
+   luminance inversion, keeping hue and WCAG AA text contrast. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
-  --color-bg: #f3f2f2;
-  --color-surface: #eae9e9;
-  --color-text: #201e1d;
-  --color-accent: #d97757;
-  --color-accent-2: #e15b47;
-  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+  --color-bg: #f6f5f4;
+  --color-surface: #ffffff;
+  --color-text: #000000;
+  --color-accent: #0075de;
+  --color-accent-2: #2a9d99;
+  --color-divider: #e6e6e6;
 
-  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
-     same step of any role matches the others in visual value. */
-  --color-neutral-100: #f8f4f4;
-  --color-neutral-200: #eae7e7;
-  --color-neutral-300: #d7d3d3;
-  --color-neutral-400: #bab6b6;
-  --color-neutral-500: #9b9797;
-  --color-neutral-600: #7d7979;
-  --color-neutral-700: #605d5d;
-  --color-neutral-800: #444141;
-  --color-neutral-900: #2d2b2b;
+  /* Tonal ramps — warm neutrals interpolated between the paper canvas and near-black ink, so
+     every step reads consistently with the Notion palette's warmth. */
+  --color-neutral-100: #f6f5f4;
+  --color-neutral-200: #e6e6e6;
+  --color-neutral-300: #d4d1ce;
+  --color-neutral-400: #b3aea8;
+  --color-neutral-500: #a39e98;
+  --color-neutral-600: #857f79;
+  --color-neutral-700: #615d59;
+  --color-neutral-800: #31302e;
+  --color-neutral-900: #000000;
 
-  --color-accent-100: #fff2ef;
-  --color-accent-200: #ffe0d9;
-  --color-accent-300: #ffc4b8;
-  --color-accent-400: #ff9783;
-  --color-accent-500: #ff563c;
-  --color-accent-600: #dd2b0f;
-  --color-accent-700: #ae1800;
-  --color-accent-800: #7c1405;
-  --color-accent-900: #4d170e;
+  --color-accent-100: #e6f2fc;
+  --color-accent-200: #cce6fa;
+  --color-accent-300: #99cdf5;
+  --color-accent-400: #4da3ff;
+  --color-accent-500: #0075de;
+  --color-accent-600: #005bab;
+  --color-accent-700: #004686;
+  --color-accent-800: #00305c;
+  --color-accent-900: #001a33;
 
-  --color-accent-2-100: #fff2ef;
-  --color-accent-2-200: #ffe0da;
-  --color-accent-2-300: #ffc4b9;
-  --color-accent-2-400: #ff9784;
-  --color-accent-2-500: #ef6853;
-  --color-accent-2-600: #c94b39;
-  --color-accent-2-700: #9e3526;
-  --color-accent-2-800: #71261b;
-  --color-accent-2-900: #471d16;
+  --color-accent-2-100: #e3f4f3;
+  --color-accent-2-200: #c2e6e4;
+  --color-accent-2-300: #8fd0cd;
+  --color-accent-2-400: #57b9b3;
+  --color-accent-2-500: #2a9d99;
+  --color-accent-2-600: #1f7f7c;
+  --color-accent-2-700: #17615f;
+  --color-accent-2-800: #0f4341;
+  --color-accent-2-900: #082625;
 
-  --font-heading: "Archivo", system-ui, sans-serif;
-  --font-heading-weight: 800;
-  --font-body: "Archivo", system-ui, sans-serif;
+  --font-heading: "Inter", system-ui, sans-serif;
+  --font-heading-weight: 700;
+  --font-body: "Inter", system-ui, sans-serif;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -52,15 +56,16 @@
   --space-6: 24px;
   --space-8: 32px;
 
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 
-  /* Elevation — derived from the ground: soft ink-tinted shadows on a
-     light theme, a hairline edge + ambient darkness on a dark one. */
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2d2b2b 22%, transparent);
+  /* Elevation — Notion's "barely-there" many-near-transparent-layers shadow, not a hard cast. */
+  --shadow-sm: 0 0.175px 1.041px rgba(0, 0, 0, 0.01), 0 0.8px 2.925px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 0.175px 1.041px rgba(0, 0, 0, 0.01), 0 0.8px 2.925px rgba(0, 0, 0, 0.02),
+    0 2.025px 7.847px rgba(0, 0, 0, 0.027), 0 4px 18px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.03), 0 8px 22px rgba(0, 0, 0, 0.05),
+    0 23px 52px rgba(0, 0, 0, 0.14);
 }
 
 body {
@@ -104,13 +109,13 @@ h6 {
   margin: 0 0 var(--space-2);
 }
 h1 {
-  font-size: 42px;
+  font-size: 40px;
 }
 h2 {
-  font-size: 32px;
+  font-size: 26px;
 }
 h3 {
-  font-size: 25px;
+  font-size: 22px;
 }
 h4 {
   font-size: 20px;
@@ -191,7 +196,8 @@ figcaption {
 }
 .btn-primary {
   background: var(--color-accent);
-  color: var(--color-bg);
+  color: #fff;
+  border-radius: 9999px;
 }
 .btn-primary:hover {
   background: var(--color-accent-600);
@@ -222,6 +228,7 @@ figcaption {
   width: 36px;
   height: 36px;
   padding: 0;
+  border-radius: 9999px;
 }
 .btn-block {
   width: 100%;
@@ -327,7 +334,7 @@ textarea.input {
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-3);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--color-surface);
 }
 .card-kicker {
@@ -395,7 +402,7 @@ textarea.input {
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-3) var(--space-4);
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
 }
 .nav a {
   color: inherit;
@@ -422,7 +429,7 @@ textarea.input {
   text-transform: uppercase;
   color: color-mix(in srgb, var(--color-text) 60%, transparent);
   padding: var(--space-2);
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
 }
 .table td {
   padding: var(--space-2);
@@ -465,7 +472,8 @@ textarea.input {
   height: 22px;
   padding: 0;
   background: var(--color-neutral-200);
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
+  border-radius: 9999px;
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -479,6 +487,7 @@ textarea.input {
   left: 1px;
   width: 14px;
   height: 14px;
+  border-radius: 9999px;
   background: var(--color-neutral-500);
   transition: transform 0.15s ease, background 0.15s ease;
 }
@@ -492,7 +501,8 @@ textarea.input {
   gap: 4px;
   max-height: 150px;
   overflow-y: auto;
-  border: 2px solid var(--color-divider);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
   padding: 8px 10px;
 }
 .checkbox-list label {
@@ -532,7 +542,7 @@ textarea.input {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  border-left: 2px solid var(--color-divider);
+  border-left: 1px solid var(--color-divider);
   padding-left: 24px;
 }
 @media (max-width: 900px) {
@@ -545,7 +555,7 @@ textarea.input {
   }
   .card-page-right {
     border-left: none;
-    border-top: 2px solid var(--color-divider);
+    border-top: 1px solid var(--color-divider);
     padding-left: 0;
     padding-top: 16px;
   }
@@ -558,29 +568,41 @@ textarea.input {
 }
 
 /* — dark theme (app-specific: toggled via [data-theme] on <html>) — */
+/* Deduced from the light palette above by inverting luminance while keeping each role's hue:
+   the warm paper canvas becomes a warm near-black, ink becomes near-white, and the accent
+   lightens just enough to stay >= 4.5:1 against the dark surface (WCAG AA on text/links). */
 :root[data-theme="dark"] {
-  --color-bg: #1c1a1a;
-  --color-surface: #272525;
-  --color-text: #f3f2f2;
-  --color-divider: color-mix(in srgb, #f3f2f2 25%, transparent);
-  --color-neutral-100: #2d2b2b;
-  --color-neutral-200: #444141;
-  --color-neutral-300: #605d5d;
-  --color-neutral-400: #7d7979;
-  --color-neutral-500: #9b9797;
-  --color-neutral-600: #bab6b6;
-  --color-neutral-700: #d7d3d3;
-  --color-neutral-800: #eae7e7;
-  --color-neutral-900: #f8f4f4;
-  --color-accent-100: #4d170e;
-  --color-accent-200: #7c1405;
-  --color-accent-300: #ae1800;
-  --color-accent-400: #dd2b0f;
-  --color-accent-500: #ff563c;
-  --color-accent-600: #ff9783;
-  --color-accent-700: #ffc4b8;
-  --color-accent-800: #ffe0d9;
-  --color-accent-900: #fff2ef;
+  --color-bg: #1b1b1a;
+  --color-surface: #262524;
+  --color-text: #f3f2f0;
+  --color-divider: #3a3836;
+  --color-neutral-100: #262524;
+  --color-neutral-200: #3a3836;
+  --color-neutral-300: #4f4c49;
+  --color-neutral-400: #726d68;
+  --color-neutral-500: #a29d97;
+  --color-neutral-600: #b8b3ad;
+  --color-neutral-700: #d8d5d1;
+  --color-neutral-800: #ebe9e6;
+  --color-neutral-900: #f3f2f0;
+  --color-accent-100: #001a33;
+  --color-accent-200: #00305c;
+  --color-accent-300: #004686;
+  --color-accent-400: #005bab;
+  --color-accent-500: #4da3ff;
+  --color-accent-600: #7cbcff;
+  --color-accent-700: #a8d2ff;
+  --color-accent-800: #cde6ff;
+  --color-accent-900: #e6f2fc;
+  --color-accent-2-100: #082625;
+  --color-accent-2-200: #0f4341;
+  --color-accent-2-300: #17615f;
+  --color-accent-2-400: #1f7f7c;
+  --color-accent-2-500: #4fc2bd;
+  --color-accent-2-600: #7fd4d0;
+  --color-accent-2-700: #a8e2df;
+  --color-accent-2-800: #cbeeec;
+  --color-accent-2-900: #e3f4f3;
 }
 
 .title-bar {
@@ -592,7 +614,7 @@ textarea.input {
   flex: 0 0 auto;
   padding: 0 0 0 var(--space-3);
   background: var(--color-surface);
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
   user-select: none;
 }
 .title-bar-brand {
@@ -650,7 +672,7 @@ textarea.input {
   min-width: 1200px;
 }
 .board-column {
-  border-right: 2px solid var(--color-divider);
+  border-right: 1px solid var(--color-divider);
   padding: 0 var(--space-3);
   display: flex;
   flex-direction: column;
@@ -661,7 +683,7 @@ textarea.input {
   align-items: baseline;
   justify-content: space-between;
   padding: var(--space-2) 0;
-  border-bottom: 2px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
   margin-bottom: var(--space-3);
 }
 .board-column-header.is-blocked {
@@ -705,6 +727,7 @@ textarea.input {
 }
 .drop-empty {
   border: 2px dashed var(--color-accent-300);
+  border-radius: var(--radius-md);
   height: 64px;
   display: flex;
   align-items: center;
@@ -715,6 +738,7 @@ textarea.input {
 }
 .add-ghost {
   border: 2px dashed var(--color-divider);
+  border-radius: var(--radius-md);
   background: none;
   padding: var(--space-3);
   display: flex;
@@ -741,7 +765,7 @@ textarea.input {
 }
 .ds-title-input {
   font-family: var(--font-heading);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 20px;
   border: none;
   background: transparent;
@@ -789,3 +813,4 @@ textarea.input {
     opacity: 0;
   }
 }
+
