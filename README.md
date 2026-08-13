@@ -4,6 +4,20 @@ Client lourd (Electron) de suivi de tâches pour Claude Code — remplace Trello
 sont des fichiers Markdown stockés directement dans le dépôt de chaque projet
 (`<projet>/.taskboard/*.md`), lus et écrits directement sur disque par l'agent : plus d'appel MCP.
 
+## Pourquoi CodeKanban
+
+Trello + un serveur MCP demandait une connexion réseau, un compte tiers et un aller-retour API à
+chaque lecture/écriture de carte, juste pour piloter l'agent projet par projet. CodeKanban
+remplace tout ça par des fichiers Markdown versionnés dans le dépôt lui-même : l'agent les lit et
+les écrit directement sur disque, sans API ni service externe.
+
+En un coup d'œil :
+- Un projet = un dossier `.taskboard/` à sa racine, une carte = un fichier `.md` dedans.
+- Chaque carte a 6 statuts possibles (backlog, à faire, en cours, bloqué, terminé, validé) qui
+  correspondent aux colonnes du tableau.
+- L'app surveille `.taskboard/` et se met à jour en direct quand l'agent modifie un fichier ; les
+  cartes validées sont archivées automatiquement par jour.
+
 ## Lancer en développement
 
 ```bash
@@ -27,10 +41,6 @@ bouton pour le copier.
 ```bash
 ln -s "$(pwd)/skill/codekanban" ~/.claude/skills/codekanban
 ```
-
-Si vous utilisez aussi le skill `ipeos-manager`, il détecte automatiquement `.taskboard/` et
-redirige vers `codekanban` pour le format des cartes (une carte prise en "À faire" = un Work Item
-ouvert).
 
 ## Archivage
 

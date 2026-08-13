@@ -5,8 +5,10 @@ const Store = require('electron-store');
 
 const store = new Store({
   name: 'codekanban-config',
-  defaults: { roots: [], archiveState: {} },
+  defaults: { roots: [], archiveState: {}, projectSettings: {} },
 });
+
+const DEFAULT_PROJECT_SETTINGS = { defaultSkill: null, askUserQuestionsDefault: true, archiveFrequency: 'daily' };
 
 function getStore() {
   return store;
@@ -36,6 +38,18 @@ function registerConfigHandlers(ipcMain) {
     const updated = store.get('roots').filter((r) => r.id !== rootId);
     store.set('roots', updated);
     return updated;
+  });
+
+  ipcMain.handle('config:getProjectSettings', (_event, projectPath) => {
+    const all = store.get('projectSettings');
+    return { ...DEFAULT_PROJECT_SETTINGS, ...(all[projectPath] || {}) };
+  });
+
+  ipcMain.handle('config:setProjectSettings', (_event, projectPath, settings) => {
+    const all = store.get('projectSettings');
+    const merged = { ...DEFAULT_PROJECT_SETTINGS, ...(all[projectPath] || {}), ...settings };
+    store.set('projectSettings', { ...all, [projectPath]: merged });
+    return merged;
   });
 }
 

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import CardModal from './CardModal';
+import CardPage from './CardPage';
 import { Card } from '../types';
 
 beforeEach(() => {
@@ -16,6 +16,9 @@ function makeCard(overrides: Partial<Card> = {}): Card {
     order: 10,
     wi: null,
     skills: [],
+    dependsOn: [],
+    askUserQuestions: null,
+    refined: false,
     created: '2026-08-11T10:00:00.000Z',
     updated: '2026-08-11T10:00:00.000Z',
     validatedAt: null,
@@ -28,46 +31,11 @@ function makeCard(overrides: Partial<Card> = {}): Card {
   };
 }
 
-describe('CardModal title/description editing', () => {
-  it('keeps spaces while typing and does not persist on every keystroke (regression)', () => {
-    const onChange = vi.fn();
-    const card = makeCard();
-    render(<CardModal card={card} onClose={() => {}} onChange={onChange} onDelete={() => {}} />);
-
-    const titleInput = screen.getByDisplayValue('Nouvelle tâche') as HTMLInputElement;
-
-    fireEvent.change(titleInput, { target: { value: 'Test' } });
-    fireEvent.change(titleInput, { target: { value: 'Test ' } });
-    fireEvent.change(titleInput, { target: { value: 'Test e' } });
-    fireEvent.change(titleInput, { target: { value: 'Test et' } });
-    fireEvent.change(titleInput, { target: { value: 'Test et ' } });
-    fireEvent.change(titleInput, { target: { value: 'Test et pipelines' } });
-
-    expect(titleInput.value).toBe('Test et pipelines');
-    expect(onChange).not.toHaveBeenCalled();
-
-    fireEvent.blur(titleInput);
-
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith({ ...card, title: 'Test et pipelines' });
-  });
-
-  it('trims leading/trailing whitespace from the title on blur', () => {
-    const onChange = vi.fn();
-    const card = makeCard();
-    render(<CardModal card={card} onClose={() => {}} onChange={onChange} onDelete={() => {}} />);
-
-    const titleInput = screen.getByDisplayValue('Nouvelle tâche') as HTMLInputElement;
-    fireEvent.change(titleInput, { target: { value: '  Titre avec espaces  ' } });
-    fireEvent.blur(titleInput);
-
-    expect(onChange).toHaveBeenCalledWith({ ...card, title: 'Titre avec espaces' });
-  });
-
+describe('CardPage description editing', () => {
   it('does not persist the description until blur, preserving internal spaces', () => {
     const onChange = vi.fn();
     const card = makeCard();
-    render(<CardModal card={card} onClose={() => {}} onDelete={() => {}} onChange={onChange} />);
+    render(<CardPage card={card} onDelete={() => {}} onChange={onChange} allCards={[card]} />);
 
     const description = screen.getByPlaceholderText("Décris ce que l'IA doit faire…") as HTMLTextAreaElement;
     fireEvent.change(description, { target: { value: 'Ecrire des tests et des pipelines pour github.' } });
@@ -80,11 +48,11 @@ describe('CardModal title/description editing', () => {
   });
 });
 
-describe('CardModal skill tags', () => {
+describe('CardPage skill tags', () => {
   it('adds a skill tag and persists it via onChange', async () => {
     const onChange = vi.fn();
     const card = makeCard();
-    render(<CardModal card={card} onClose={() => {}} onDelete={() => {}} onChange={onChange} />);
+    render(<CardPage card={card} onDelete={() => {}} onChange={onChange} allCards={[card]} />);
 
     const input = screen.getByPlaceholderText('Ajouter un skill…') as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'codekanban' } });
@@ -96,7 +64,7 @@ describe('CardModal skill tags', () => {
   it('removes an existing skill tag via onChange', () => {
     const onChange = vi.fn();
     const card = makeCard({ skills: ['codekanban', 'ipeos-manager'] });
-    render(<CardModal card={card} onClose={() => {}} onDelete={() => {}} onChange={onChange} />);
+    render(<CardPage card={card} onDelete={() => {}} onChange={onChange} allCards={[card]} />);
 
     fireEvent.click(screen.getByLabelText('Retirer codekanban'));
 

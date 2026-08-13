@@ -1,11 +1,8 @@
 import { RaysIcon, CrescentIcon } from "./icons";
-import logoLight from "../assets/logo-large-light.png";
-import logoDark from "../assets/logo-large-dark.png";
 
 interface NavProps {
   isDark: boolean;
   onToggleTheme: () => void;
-  onBrandClick?: () => void;
   right?: React.ReactNode;
   children?: React.ReactNode;
 }
@@ -13,29 +10,13 @@ interface NavProps {
 export default function Nav({
   isDark,
   onToggleTheme,
-  onBrandClick,
   right,
   children,
 }: NavProps) {
   return (
     <nav className="nav">
-      <span
-        className="nav-brand"
-        style={onBrandClick ? { cursor: "pointer" } : undefined}
-        onClick={onBrandClick}
-      >
-        <img src={isDark ? logoDark : logoLight} alt="CodeKanban" className="nav-logo" />
-      </span>
       {children}
-      <span
-        style={{
-          marginLeft: children ? undefined : "auto",
-          fontSize: 13,
-          opacity: 0.6,
-        }}
-      >
-        {right}
-      </span>
+      <span style={{ marginLeft: "auto", fontSize: 13 }}>{right}</span>
       <button
         type="button"
         className="btn btn-ghost btn-icon"

@@ -4,6 +4,9 @@ contextBridge.exposeInMainWorld('api', {
   listRoots: () => ipcRenderer.invoke('config:listRoots'),
   addRoot: () => ipcRenderer.invoke('config:addRoot'),
   removeRoot: (rootId) => ipcRenderer.invoke('config:removeRoot', rootId),
+  getProjectSettings: (projectPath) => ipcRenderer.invoke('config:getProjectSettings', projectPath),
+  setProjectSettings: (projectPath, settings) =>
+    ipcRenderer.invoke('config:setProjectSettings', projectPath, settings),
 
   listProjects: (rootId) => ipcRenderer.invoke('projects:list', rootId),
 
@@ -13,6 +16,8 @@ contextBridge.exposeInMainWorld('api', {
   deleteCard: (projectPath, cardId) => ipcRenderer.invoke('cards:delete', projectPath, cardId),
   reorderColumn: (projectPath, status, orderedIds) =>
     ipcRenderer.invoke('cards:reorderColumn', projectPath, status, orderedIds),
+  renameCard: (projectPath, filename, title) => ipcRenderer.invoke('cards:rename', projectPath, filename, title),
+  archiveNow: (projectPath) => ipcRenderer.invoke('archive:now', projectPath),
 
   watchProject: (projectPath) => ipcRenderer.invoke('watcher:watch', projectPath),
   unwatchProject: () => ipcRenderer.invoke('watcher:unwatch'),

@@ -1,4 +1,4 @@
-import { Status } from '../types';
+import { Card, Status } from '../types';
 
 export interface ColumnMeta {
   id: Status;
@@ -26,3 +26,22 @@ export const PRIORITY_CLASS: Record<string, string> = {
   moyenne: 'tag tag-outline',
   basse: 'tag tag-neutral',
 };
+
+/**
+ * In the "todo" column, a card can't be positioned before its own dependencies, nor after a
+ * card that depends on it (both still being tracked while in "todo"). Returns the allowed
+ * insertion-index range [min, max] within `colCards` (which must exclude the dragged card).
+ */
+export function getDependencyBounds(draggingCard: Card, colCards: Card[]): { min: number; max: number } {
+  const depPositions = draggingCard.dependsOn
+    .map((depId) => colCards.findIndex((c) => c.id === depId))
+    .filter((i) => i >= 0);
+  const min = depPositions.length ? Math.max(...depPositions) + 1 : 0;
+
+  const dependentPositions = colCards
+    .map((c, i) => (c.dependsOn.includes(draggingCard.id) ? i : -1))
+    .filter((i) => i >= 0);
+  const max = dependentPositions.length ? Math.min(...dependentPositions) : colCards.length;
+
+  return { min, max };
+}

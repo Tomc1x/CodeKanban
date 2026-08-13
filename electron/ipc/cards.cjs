@@ -3,7 +3,8 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { parseCardFile, serializeCard, nowIso } = require('../lib/cardFile.cjs');
 const { assertKnownProjectPath } = require('../lib/safePath.cjs');
-const { maybeArchive } = require('./archive.cjs');
+const { maybeArchive, archiveNow } = require('./archive.cjs');
+const { getStore } = require('./config.cjs');
 
 function taskboardDir(projectPath) {
   return path.join(projectPath, '.taskboard');
@@ -74,6 +75,7 @@ function registerCardsHandlers(ipcMain) {
     const id = String(seq).padStart(3, '0');
     const title = 'Nouvelle tâche';
     const filename = `${id}-${slugify(title)}.md`;
+    const projectSettings = getStore().get('projectSettings')[safePath] || {};
     const card = {
       id,
       status: status || 'backlog',
@@ -81,7 +83,10 @@ function registerCardsHandlers(ipcMain) {
       estimate: '',
       order: seq * 10,
       wi: null,
-      skills: [],
+      skills: projectSettings.defaultSkill ? [projectSettings.defaultSkill] : [],
+      dependsOn: [],
+      askUserQuestions: null,
+      refined: false,
       created: nowIso(),
       updated: nowIso(),
       validatedAt: null,
@@ -92,6 +97,32 @@ function registerCardsHandlers(ipcMain) {
       comments: [],
     };
     writeCardToDisk(safePath, card);
+    return card;
+  });
+
+  ipcMain.handle('cards:rename', (_event, projectPath, filename, title) => {
+    const safePath = assertKnownProjectPath(projectPath);
+    const dir = taskboardDir(safePath);
+    const oldFile = path.join(dir, filename);
+    if (!fs.existsSync(oldFile)) throw new Error(`Card file not found: ${filename}`);
+
+    const raw = fs.readFileSync(oldFile, 'utf-8');
+    const card = parseCardFile(raw, filename);
+    card.title = title;
+    card.updated = nowIso();
+
+    const idPrefix = filename.match(/^(\d+)-/)?.[1] || card.id;
+    let slug = slugify(title);
+    let newFilename = `${idPrefix}-${slug}.md`;
+    let n = 2;
+    while (newFilename !== filename && fs.existsSync(path.join(dir, newFilename))) {
+      newFilename = `${idPrefix}-${slug}-${n}.md`;
+      n += 1;
+    }
+
+    card.filename = newFilename;
+    writeCardToDisk(safePath, card);
+    if (newFilename !== filename) fs.unlinkSync(oldFile);
     return card;
   });
 
@@ -115,6 +146,12 @@ function registerCardsHandlers(ipcMain) {
       }
     });
     return true;
+  });
+
+  ipcMain.handle('archive:now', (_event, projectPath) => {
+    const safePath = assertKnownProjectPath(projectPath);
+    const cards = readCardsFromDisk(safePath);
+    return archiveNow(safePath, cards);
   });
 }
 

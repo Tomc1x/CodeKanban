@@ -3,42 +3,56 @@ id: '001'
 status: validated
 priority: moyenne
 estimate: ''
-order: 20
+order: 10
 wi: null
-skills: []
-created: '2026-08-12T16:35:14.637Z'
-updated: '2026-08-12T19:35:21.497Z'
-validated_at: null
+skills:
+  - manager
+depends_on: []
+ask_user_questions: null
+refined: false
+created: '2026-08-13T12:57:44.797Z'
+updated: '2026-08-13T15:45:20.083Z'
+validated_at: '2026-08-13T13:38:23.296Z'
 ---
-# Barre du haut
+# README
 
 ## Description
-Remplacer la barre de titre native de l'app Electron (Windows/Linux uniquement, pas de build macOS) par une barre custom intégrée au thème de l'app.
+Réécrire le README pour mieux expliquer le projet, sans le confondre avec `ipeos-manager`.
 
-Comportement attendu :
-- Supprimer complètement le menu applicatif natif (File/Edit/View/...) via `Menu.setApplicationMenu(null)` dans `electron/main.cjs` — aucun accès résiduel (ni via Alt, ni raccourci).
-- Retirer le frame natif de la fenêtre (`frame: false` dans les options de `BrowserWindow` de `createWindow()` dans `electron/main.cjs`).
-- Créer une barre de titre custom en HTML/CSS/React (nouveau composant, ex. `src/components/TitleBar.tsx`), fixée en haut de l'app, stylée pour suivre le thème clair/sombre existant de l'app.
-- La barre affiche à gauche le nom de l'app ("CodeKanban") + l'icône de l'app.
-- Toute la zone de la barre (sauf les 3 boutons à droite) doit être une zone de drag pour déplacer la fenêtre (CSS `-webkit-app-region: drag`, et `-webkit-app-region: no-drag` sur les boutons).
-- À droite, 3 boutons de contrôle : Minimiser, Maximiser/Restaurer (icône qui change selon l'état de la fenêtre), Fermer.
-- Ces boutons communiquent avec le process principal via IPC (nouveaux canaux dans `electron/preload.cjs` + un handler, ex. `electron/ipc/window.cjs`, exposant `window:minimize`, `window:maximize`, `window:close`, et un événement/état pour savoir si la fenêtre est maximisée afin de basculer l'icône Maximiser/Restaurer).
-- Double-clic sur la zone de drag doit aussi maximiser/restaurer la fenêtre (comportement standard Windows).
+Contexte confirmé (ne pas re-vérifier) : `ipeos-manager` n'est pas intégré dans le code de
+l'app CodeKanban — il n'apparaît que dans la doc (`README.md`, section « Installer le skill »)
+et dans le champ `skills` des cartes, qui est un tag libre parmi d'autres sans logique
+spécifique dans l'app (voir `src/components/SkillTags.tsx`, `src/components/CardModal.tsx`).
+Le seul skill que l'app installe/consomme réellement est `codekanban` (`skill/codekanban/`,
+écran « Installation »).
+
+À faire dans `README.md` :
+1. Ajouter en tête une section « Pourquoi CodeKanban » qui explique en 3-4 phrases le problème
+   résolu (remplacer Trello + appels MCP par des fichiers Markdown locaux lus/écrits
+   directement par l'agent, sans API/réseau) et le fonctionnement en un coup d'œil (dossier
+   `.taskboard/`, un fichier = une carte, 6 statuts, agent lit/écrit directement sur disque).
+2. Clarifier la section sur `ipeos-manager` : préciser explicitement qu'il s'agit d'une
+   interopérabilité optionnelle purement documentaire (aucun code de l'app n'en dépend), pour
+   éviter la confusion.
+3. Garder le reste de la structure existante (Lancer en développement, Format des tâches,
+   Installer le skill, Archivage, Notes techniques).
 
 ## Checklist
-- [x] Retirer le menu applicatif natif (`Menu.setApplicationMenu(null)`)
-- [x] Passer `frame: false` sur la `BrowserWindow`
-- [x] Ajouter les handlers IPC fenêtre (minimize/maximize/close + état maximisé) côté main + preload
-- [x] Créer le composant `TitleBar` (nom app + icône, zone de drag, 3 boutons)
-- [x] Gérer le changement d'icône Maximiser/Restaurer selon l'état de la fenêtre
-- [x] Gérer le double-clic sur la zone de drag pour maximiser/restaurer
-- [x] Vérifier le rendu en thème clair et sombre
-- [ ] Tester sur Windows et Linux
+- [x] Ajouter la section « Pourquoi CodeKanban / comment ça marche » en tête du README
+- [x] Clarifier que ipeos-manager n'est qu'une doc d'interopérabilité optionnelle, non intégrée au code
+- [x] Relire l'ensemble du README pour cohérence
 
 ## Commentaires
-**Assistant IA** — 2026-08-12 17:10
-Implémenté : menu natif supprimé (`Menu.setApplicationMenu(null)`), `frame: false` sur la `BrowserWindow`, handlers IPC dans `electron/ipc/window.cjs` (minimize/maximizeToggle/close/isMaximized + event `window:maximizedChanged`), exposés dans `preload.cjs` et `types.ts`. Nouveau composant `src/components/TitleBar.tsx` monté dans `App.tsx`, avec icônes dédiées (`MinimizeIcon`/`MaximizeIcon`/`RestoreIcon`/`CloseIcon`) et styles `.title-bar*` dans `styles.css` suivant les tokens clair/sombre existants.
+**Assistant IA** — 2026-08-13 13:40
+Ajout d'une section « Pourquoi CodeKanban » en tête du README (problème résolu + fonctionnement
+en un coup d'œil), et clarification explicite dans la section `ipeos-manager` : interopérabilité
+purement documentaire, aucun code de l'app n'en dépend. Reste de la structure inchangée.
 
-Vérifié visuellement (capture d'écran hors-écran via `capturePage`, sans passer par le vrai bureau) en thème clair et sombre : plus de menu File/Edit/View, barre custom avec marque "CodeKanban", drag zone, 3 boutons. Testé fonctionnellement : `win.maximize()` → icône bascule en Restaurer ; double-clic sur la zone de drag restaure bien la fenêtre maximisée ; clic sur le bouton Minimiser minimise réellement la fenêtre (`win.isMinimized() === true`). `npm run build`, `tsc --noEmit` et la suite de tests (`vitest run`, 15/15) passent.
+**Vous** — 13/08 09:38
+Tu parle encore du skill ipeos-manager, c'est un repo public et ipeos-manager est interne a l'entreprise alors il n'a rien a faire dans le readme. L'utilisateur modifiera le skill selon ses envies.
 
-Non testé : build réel sur Windows (pas d'environnement Windows disponible ici) — seul Linux a été vérifié. À valider manuellement sur Windows avant de considérer la carte comme totalement close.
+**Assistant IA** — 2026-08-13 13:55
+Corrigé : le paragraphe mentionnant `ipeos-manager` dans la section « Installer le skill » a été
+retiré du README (repo public, `ipeos-manager` est interne à l'entreprise). Le reste de la
+section (installation du skill `codekanban`) est inchangé, plus aucune occurrence d'
+`ipeos-manager` dans README.md.

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProjectSummary, RootConfig } from '../types';
+import { SearchIcon } from '../components/icons';
 
 interface RootScreenProps {
   onOpenProject: (project: ProjectSummary) => void;
@@ -8,6 +9,7 @@ interface RootScreenProps {
 export default function RootScreen({ onOpenProject }: RootScreenProps) {
   const [roots, setRoots] = useState<RootConfig[]>([]);
   const [projects, setProjects] = useState<ProjectSummary[]>([]);
+  const [query, setQuery] = useState('');
 
   const reloadProjects = (currentRoots: RootConfig[]) => {
     Promise.all(currentRoots.map((r) => window.api.listProjects(r.id))).then((lists) => {
@@ -37,7 +39,7 @@ export default function RootScreen({ onOpenProject }: RootScreenProps) {
       </p>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-        <button type="button" className="btn btn-primary" onClick={addRoot}>Ajouter un dossier racine</button>
+        <button type="button" data-tutorial="add-root" className="btn btn-primary" onClick={addRoot}>Ajouter un dossier racine</button>
         {roots.length === 0 && <span className="text-muted" style={{ fontSize: 13 }}>Aucun dossier racine configuré.</span>}
       </div>
 
@@ -59,8 +61,22 @@ export default function RootScreen({ onOpenProject }: RootScreenProps) {
         </div>
       )}
 
+      {projects.length > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, maxWidth: 360 }}>
+          <SearchIcon />
+          <input
+            className="input"
+            placeholder="Rechercher un projet…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+      )}
+
       <div className="project-grid">
-        {projects.map((proj) => (
+        {projects
+          .filter((proj) => proj.name.toLowerCase().includes(query.trim().toLowerCase()))
+          .map((proj) => (
           <div key={proj.path} className="card elev-sm" style={{ cursor: 'pointer' }} onClick={() => onOpenProject(proj)}>
             <div className="card-kicker">{proj.path}</div>
             <div className="card-title">{proj.name}</div>

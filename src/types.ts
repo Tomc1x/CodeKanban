@@ -21,6 +21,9 @@ export interface Card {
   order: number;
   wi: string | null;
   skills: string[];
+  dependsOn: string[];
+  askUserQuestions: boolean | null;
+  refined: boolean;
   created: string;
   updated: string;
   validatedAt: string | null;
@@ -45,10 +48,20 @@ export interface ProjectSummary {
   blockedCount: number;
 }
 
+export type ArchiveFrequency = 'daily' | 'weekly' | 'never';
+
+export interface ProjectSettings {
+  defaultSkill: string | null;
+  askUserQuestionsDefault: boolean;
+  archiveFrequency: ArchiveFrequency;
+}
+
 export interface CodeKanbanApi {
   listRoots: () => Promise<RootConfig[]>;
   addRoot: () => Promise<RootConfig[]>;
   removeRoot: (rootId: string) => Promise<RootConfig[]>;
+  getProjectSettings: (projectPath: string) => Promise<ProjectSettings>;
+  setProjectSettings: (projectPath: string, settings: Partial<ProjectSettings>) => Promise<ProjectSettings>;
 
   listProjects: (rootId: string) => Promise<ProjectSummary[]>;
 
@@ -57,6 +70,8 @@ export interface CodeKanbanApi {
   createCard: (projectPath: string, status: Status) => Promise<Card>;
   deleteCard: (projectPath: string, filename: string) => Promise<boolean>;
   reorderColumn: (projectPath: string, status: Status, orderedFilenames: string[]) => Promise<boolean>;
+  renameCard: (projectPath: string, filename: string, title: string) => Promise<Card>;
+  archiveNow: (projectPath: string) => Promise<boolean>;
 
   watchProject: (projectPath: string) => Promise<boolean>;
   unwatchProject: () => Promise<boolean>;
