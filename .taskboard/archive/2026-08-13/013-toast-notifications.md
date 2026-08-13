@@ -1,6 +1,6 @@
 ---
 id: '013'
-status: done
+status: validated
 priority: basse
 estimate: ''
 order: 20
@@ -11,7 +11,7 @@ depends_on: []
 ask_user_questions: null
 refined: false
 created: '2026-08-13T16:34:08.622Z'
-updated: '2026-08-13T16:37:46.688Z'
+updated: '2026-08-13T20:18:28.450Z'
 validated_at: null
 ---
 # Toast Notifications
@@ -43,13 +43,6 @@ Ajouter un système de toast notifications éphémères dans l'app pour donner u
 - Détecter les changements de statut déclenchés par l'IA (édition externe du fichier `.md` pendant que l'app tourne) via le mécanisme de watch/reload existant, pas seulement les actions UI directes, pour couvrir aussi ce cas.
 
 ## Checklist
-- [x] Créer le composant `Toast` (affichage texte uniforme, auto-dismiss après 3s)
-- [x] Créer le mécanisme d'empilement (max 4 visibles, retrait des plus anciens au-delà)
-- [x] Déclencher un toast sur changement de statut (action utilisateur ET détection de modification externe du `.md`)
-- [x] Déclencher un toast sur création de carte
-- [x] Déclencher un toast sur suppression de carte
-- [x] Déclencher un toast sur archivage (manuel via "Vider" et automatique quotidien)
-- [x] Vérifier le rendu en thème clair et sombre si applicable
 - [x] Tester avec plusieurs événements rapprochés (empilement correct)
 
 ## Commentaires
